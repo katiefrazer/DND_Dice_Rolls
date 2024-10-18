@@ -1,0 +1,42 @@
+---
+title: 'Campaign: Fae Wild Merind (DM: Shayna Dix)'
+author: "Katherine Frazer"
+date: "2024-10-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+source("../../setup.R")
+```
+
+This is the dice rolls for each session for the campaign run by Shayna Dix, in the City of Merind in the Fae Wild. The reason it starts at the fourth session is because I did not track my dice rolls until then.
+
+# Session 4
+
+```{r}
+Session4 <- read_excel("../../data/DND Dice Rolls.xlsx", 
+                       range = "A1:F16")
+
+#View(Session4)
+```
+
+```{r}
+Session4 %>%
+  mutate(DieRoll = as.numeric(DieRoll)) %>%
+  group_by(DieRoll) %>%
+  ggplot(aes(x = DieRoll)) +
+  geom_dotplot() +
+  scale_x_discrete(limits = c(1:20)) +
+  dark_theme_minimal() +
+  labs(title = "Distribution of Die Rolls for Session 4",
+       subtitle = "Only the rock dice set was used, and all dice rolled were d20s",
+       x = "Value of Die Rolled",
+       y = "Number of Occurrences") +
+  theme(plot.title = element_text(face = "bold", size = "20"))
+
+# y-axis needs to be removed, will it be easily understandable?
+```
