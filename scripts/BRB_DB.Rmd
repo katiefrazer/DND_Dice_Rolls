@@ -1,0 +1,100 @@
+---
+title: "BRB_DB"
+author: "Katherine Frazer"
+date: "2024-10-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+source("setup.R")
+```
+
+# Campaign
+
+Let's read in the data for all the dice rolls.
+
+```{r}
+# this reads in ALL data, meaning it will need to be filtered later
+DND_Dice_Rolls <- read_excel("../data/DND Dice Rolls.xlsx")
+
+View(DND_Dice_Rolls)
+```
+
+Let's filter the data to just have the rolls from this campaign.
+
+```{r}
+# filter for ID_Number that contains DB-MB-BRB (unique id for this campaign)
+# this will allow for all sessions to be included
+
+DB_MB_BRB <- DND_Dice_Rolls %>%
+  filter(grepl("DB-MB-BRB", ID_Number))
+
+View(DB_MB_BRB)
+```
+
+Let's make a graph comparing all of the dice rolls for the campaign.
+
+```{r}
+DB_MB_BRB %>%
+  group_by(DieType) %>%
+  ggplot(aes(x = DieRoll)) +
+  geom_bar(aes(fill = DieSet)) +
+  facet_wrap(~DieType, scales = "free_x") +
+  dark_theme_gray() +
+  labs(title = "Distribution of Campaign Die Rolls",
+       subtitle = "Campaign: Blue Ribbon Bakeoff",
+       x = "Value of Die Rolled",
+       y = "Number of Times Rolled")
+
+#need to arrnage DieType so it is in order
+```
+
+# Session 0
+
+Let's pull in the dataset and filter for Session 0.
+
+```{r}
+# this includes data from another campaign, which will be filtered out later
+DND_Dice_Rolls_0 <- read_excel("../data/DND Dice Rolls.xlsx", 
+    range = "A1:F68")
+
+View(DND_Dice_Rolls_0)
+
+Session0 <- DND_Dice_Rolls_0 %>%
+  filter(ID_Number == "DB-MB-BRB-0")
+
+View(Session0)
+```
+
+Let's make a graph comparing die rolls for d6, as it was my most commonly rolled die.
+
+```{r}
+Session0 %>%
+  filter(DieType == "d6") %>%
+  ggplot(aes(x = DieRoll)) +
+  geom_bar() +
+  scale_x_discrete(limits = c(1:6)) +
+  dark_theme_minimal() +
+  labs(title = "Distribution of d6 Rolls for Session 0",
+       subtitle = "Only the yellow dice set was used",
+       x = "Value of Die Rolled",
+       y = "Number of Times Rolled") +
+  theme(plot.title = element_text(face = "bold", size = "20"))
+
+# adjust y-axis text labels
+# decided to use barplot over dotplot
+```
+
+Let's do a distribution of all dice rolled.
+
+```{r}
+Session0 %>%
+  group_by(DieType) %>%
+  ggplot(aes(x = DieRoll)) +
+  geom_bar() +
+  facet_wrap(~DieType, scales = "free_x")
+```

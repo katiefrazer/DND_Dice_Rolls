@@ -41,21 +41,6 @@ Session4 %>%
        y = "Number of Times Rolled") +
   theme(plot.title = element_text(face = "bold", size = "20"))
 
-# y-axis needs to be removed, will it be easily understandable?
-```
-
-```{r}
-Session4 %>%
-  mutate(DieRoll = as.numeric(DieRoll)) %>%
-  group_by(DieRoll) %>%
-  ggplot(aes(x = DieRoll)) +
-  geom_dotplot(stackratio = 1.5) +
-  scale_x_discrete(limits = c(1:20)) +
-  dark_theme_minimal() +
-  labs(title = "Distribution of Die Rolls for Session 4",
-       subtitle = "Only the rock dice set was used, and all dice rolled were d20s",
-       x = "Value of Die Rolled") +
-  theme(plot.title = element_text(face = "bold", size = "20"),
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank())
+# adjust y-axis text labels
+# decided to use bar plot over dotplot
 ```
