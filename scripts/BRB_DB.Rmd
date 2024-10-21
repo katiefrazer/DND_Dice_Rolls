@@ -19,9 +19,9 @@ Let's read in the data for all the dice rolls.
 
 ```{r}
 # this reads in ALL data, meaning it will need to be filtered later
-DND_Dice_Rolls <- read_excel("../data/DND Dice Rolls.xlsx")
+DND_Dice_Rolls_BRB <- read_excel("../data/DND Dice Rolls.xlsx")
 
-View(DND_Dice_Rolls)
+#View(DND_Dice_Rolls)
 ```
 
 Let's filter the data to just have the rolls from this campaign.
@@ -30,7 +30,7 @@ Let's filter the data to just have the rolls from this campaign.
 # filter for ID_Number that contains DB-MB-BRB (unique id for this campaign)
 # this will allow for all sessions to be included
 
-DB_MB_BRB <- DND_Dice_Rolls %>%
+DB_MB_BRB <- DND_Dice_Rolls_BRB %>%
   filter(grepl("DB-MB-BRB", ID_Number))
 
 View(DB_MB_BRB)

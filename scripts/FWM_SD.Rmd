@@ -15,6 +15,45 @@ source("setup.R")
 
 This is the dice rolls for each session for the campaign run by Shayna Dix, in the City of Merind in the Fae Wild. The reason it starts at the fourth session is because I did not track my dice rolls until then.
 
+# Campaign
+
+Let's read in the data for all the dice rolls.
+
+```{r}
+DND_Dice_Rolls_FWM <- read_excel("../data/DND Dice Rolls.xlsx")
+
+View(DND_Dice_Rolls_FWM)
+```
+
+Filter the data to just be SD-SR-FWM campaign.
+
+```{r}
+# filter for ID_Number that contains SD-SR-FWM (unique id for this campaign)
+# this will allow for all sessions to be included
+
+SD_SR_FWM <- DND_Dice_Rolls_BRB %>%
+  filter(grepl("SD-SR-FWM", ID_Number))
+
+View(SD_SR_FWM)
+```
+
+Graph for all dice rolls throughout the campaign
+
+```{r}
+SD_SR_FWM %>%
+  group_by(DieType) %>%
+  ggplot(aes(x = DieRoll)) +
+  geom_bar(aes(fill = DieSet)) +
+  facet_wrap(~DieType, scales = "free_x") +
+  dark_theme_gray() +
+  labs(title = "Distribution of Campaign Die Rolls",
+       subtitle = "Campaign: Fae Wilds Merind",
+       x = "Value of Die Rolled",
+       y = "Number of Times Rolled")
+
+#need to arrnage DieType so it is in order
+```
+
 # Session 4
 
 ```{r}
@@ -39,7 +78,7 @@ Session4 %>%
        subtitle = "Only the rock dice set was used, and all dice rolled were d20s",
        x = "Value of Die Rolled",
        y = "Number of Times Rolled") +
-  theme(plot.title = element_text(face = "bold", size = "20"))
+  theme(plot.title = element_text(face = "bold", size = "18"))
 
 # adjust y-axis text labels
 # decided to use bar plot over dotplot
